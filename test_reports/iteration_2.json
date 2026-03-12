@@ -1,0 +1,49 @@
+{
+  "summary": "Update mode testing after Google Sheets integration for contacts. Updated 2 backend tests and the dismissToasts helper to match new behavior. All 20 backend + 40 frontend tests pass.",
+  "mode": "update",
+  "baseline_commit": "7904b1c3639358e254487cc7b91726ce97626553",
+  "head_commit": "b72ceeb2a5aa810fd897d7e0110d50fa0d04329c",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "regression_results": {
+    "total_specs": 5,
+    "passed": 40,
+    "failed": 0,
+    "skipped": 0,
+    "backend_passed": 20,
+    "backend_failed": 0
+  },
+  "specs_created": [],
+  "specs_updated": [
+    "/app/backend/tests/test_api.py",
+    "/app/backend/tests/conftest.py",
+    "/app/tests/fixtures/helpers.ts"
+  ],
+  "quarantined_tests": [],
+  "test_report_links": [
+    "/app/backend/tests/test_api.py",
+    "/app/test_reports/pytest/pytest_results_iter2.xml"
+  ],
+  "action_items": [],
+  "updated_files": [
+    "/app/backend/tests/test_api.py",
+    "/app/backend/tests/conftest.py",
+    "/app/tests/fixtures/helpers.ts"
+  ],
+  "success_rate": {
+    "backend": "100% (20/20)",
+    "frontend": "100% (40/40)"
+  },
+  "seed_data_creation": "Backend contact tests now create TEST_ entries in Google Sheets with no cleanup (no delete API). Gallery test data is still cleaned up via DELETE endpoint.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Google Sheets integration fully working. Contacts are written to and read from Google Sheets. No contact delete/mark-as-read endpoints exist. dismissToasts helper uses .first() to avoid strict mode violations with multiple toasts. All other functionality unchanged.",
+  "rca_of_issue": "2 backend tests failed due to Google Sheets integration: (1) test_contact_has_required_fields asserted is_read in POST /api/contact response - ContactSubmission model has no is_read field (only added by GET /admin/contacts). (2) test_admin_can_mark_contact_read called PUT /api/admin/contacts/{id}/read which was removed. 1 frontend test (admin logout) failed due to dismissToasts strict mode violation when 2 toasts (login+logout) appeared simultaneously - fixed by adding .first() to the locator."
+}
